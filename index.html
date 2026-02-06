@@ -506,6 +506,54 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* --- ESTILOS PARA LA OFERTA DESTACADA (REEMPLAZO CUPÓN) --- */
+        .featured-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 4px; /* Grosor del borde animado */
+            background: linear-gradient(90deg, #ff0055, #ffcc00, #ff0055);
+            background-size: 400% 400%;
+            animation: gradientBorder 3s ease infinite;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 0, 85, 0.4);
+            z-index: 10;
+        }
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .featured-card {
+            background: rgba(10, 14, 39, 0.98);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff0055;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            box-shadow: 0 0 15px #ff0055;
+            z-index: 5;
+            animation: pulseBadge 1.5s infinite;
+            transform: rotate(5deg);
+        }
+        @keyframes pulseBadge { 0% { transform: scale(1) rotate(5deg); } 50% { transform: scale(1.1) rotate(5deg); } 100% { transform: scale(1) rotate(5deg); } }
+        
+        @media(min-width: 768px) {
+            .featured-card { flex-direction: row; align-items: center; }
+            .featured-card .promo-image-container { width: 50%; height: 350px; border-radius: 0; clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); }
+            .featured-card .promo-content { width: 50%; padding: 40px; text-align: left; }
+        }
         
         /* --- BOTÓN VOLVER ARRIBA --- */
         .back-to-top {
@@ -579,9 +627,30 @@
             <a href="#bebestibles" class="filter-btn"><span class="filter-icon">🥤</span> Bebestibles</a>
         </div>
 
-        <div class="cupon-section" style="text-align: center; margin: 30px 0;">
-            <button id="btnCupon" class="btn-cupon-especial">Cargando promoción...</button>
-            <p id="msgError" style="color: #ff0055; display: none; margin-top: 10px; font-weight: bold; text-shadow: 0 0 5px red;">❌ Ya utilizaste este cupón anteriormente.</p>
+        <!-- SECCIÓN DESTACADA (REEMPLAZA AL CUPÓN) -->
+        <div class="featured-wrapper">
+            <div class="featured-badge">¡20% OFF! 🔥</div>
+            <div class="featured-card">
+                <div class="promo-image-container">
+                    <img src="images/Cuarteto_Cosmico.jpg" alt="Cuarteto Cósmico" class="promo-image">
+                </div>
+                <div class="promo-content">
+                    <div class="promo-title" style="font-size: 32px; color: #ff00ff;">🚀 OFERTA DE LA SEMANA: Cuarteto Cósmico</div>
+                    <div class="promo-info" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                        <span class="promo-pieces">40 PIEZAS MIXTAS</span>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span class="promo-price" style="font-size: 40px; color: #00fff2;">20% OFF</span>
+                        </div>
+                    </div>
+                    <ul class="promo-items">
+                        <li>10 Panko: Camarón, Cebollín, Queso crema.</li>
+                        <li>10 Panko: Kanikama, Palta, Queso crema.</li>
+                        <li>10 Panko: Pollo, Morrón, Queso crema.</li>
+                        <li>10 Panko: Pollo, Palta, Queso crema.</li>
+                    </ul>
+                    <a href="https://wa.me/56955230651?text=Hola!%20Quiero%20aprovechar%20la%20oferta%20del%20*Cuarteto%20Cosmico*%20con%2020%25%20OFF!" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">⚡</span> ¡PEDIR AHORA!</a>
+                </div>
+            </div>
         </div>
 
         <div class="menu-section" id="ofertas">
@@ -767,7 +836,7 @@
                 <div class="promo-card">
                     <div class="promo-image-container"><img src="images/Cuarteto_Cosmico.jpg" alt="Cosmic Quartet" class="promo-image"></div>
                     <div class="promo-content">
-                        <div class="promo-title">Cuarteto Cosmico</div>
+                        <div class="promo-title">Cuarteto Cósmico <span style="font-size: 12px; background: #ff0055; padding: 2px 6px; border-radius: 4px; vertical-align: middle;">20% OFF</span></div>
                         <div class="promo-info"><span class="promo-pieces">40 PIEZAS</span><span class="promo-price">$14.500</span></div>
                         <ul class="promo-items">
                             <li>10 Panko: Camarón, Cebollín, Queso crema.</li>
@@ -775,7 +844,7 @@
                             <li>10 Panko: Pollo, Morrón, Queso crema.</li>
                             <li>10 Panko: Pollo, Palta, Queso crema.</li>
                         </ul>
-                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Cuarteto%20Cosmico*%20(40%20piezas%20-%20%2414.500)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
+                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Cuarteto%20Cosmico*%20(40%20piezas%20-%2020%25%20OFF)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -1184,66 +1253,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        
-        // --- CONFIGURA LAS FECHAS AQUÍ ---
-        // (Año, Mes-1, Día) -> Enero es 0, Febrero es 1
-        const fechaInicio = new Date(2026, 0, 29); // 29 de Enero (00:00 hrs)
-        const fechaFin    = new Date(2026, 1, 6);  // 6 de Febrero (00:00 hrs)
-        // Nota: Ponemos día 6 para que el cupón funcione TODO el día 5 hasta la medianoche.
-
-        const hoy = new Date();
-        const btn = document.getElementById('btnCupon');
-
-        // 1. COMPORTAMIENTO DEL CLIC
-        btn.onclick = function() {
-            const fechaActual = new Date(); 
-            
-            if (fechaActual < fechaInicio) {
-                // ANTES DE LA FECHA
-                alert("✋ ¡Aún no es la gran apertura!\nVuelve el 29 de Enero.");
-            } 
-            else if (fechaActual >= fechaFin) {
-                // DESPUÉS DE LA FECHA LÍMITE
-                alert("😢 Lo sentimos, esta promoción finalizó el 5 de Febrero.");
-            }
-            else {
-                // DENTRO DEL RANGO (29 Ene - 5 Feb)
-                verificarCupon();
-            }
-        };
-
-        // 2. APARIENCIA VISUAL (Texto y Colores)
-        if (hoy < fechaInicio) {
-            // ESTADO: ESPERA
-            btn.innerHTML = "🔒 DESBLOQUEA EL <strong>29 DE ENERO</strong>";
-            btn.classList.add('btn-bloqueado');
-        } 
-        else if (hoy >= fechaFin) {
-            // ESTADO: EXPIRADO (Se acabó el tiempo)
-            btn.innerHTML = "🚫 PROMOCIÓN FINALIZADA";
-            btn.classList.add('btn-bloqueado'); // Usamos el mismo estilo gris
-            btn.style.opacity = "0.6"; // Un poco más transparente
-        }
-        else {
-            // ESTADO: ACTIVO (¡A canjear!)
-            btn.innerHTML = "🎁 CANJEA TU CUPÓN AQUÍ <br><span style='font-size:12px'>(Válido hasta el 5 Feb)</span>";
-            btn.classList.remove('btn-bloqueado');
-        }
-    });
-
-    function verificarCupon() {
-        if (localStorage.getItem('cupon_canjeado') === 'true') {
-            document.getElementById('msgError').style.display = 'block';
-            document.getElementById('btnCupon').style.opacity = '0.5';
-            document.getElementById('btnCupon').innerText = "CUPÓN YA UTILIZADO";
-            document.getElementById('btnCupon').onclick = null;
-        } else {
-            window.location.href = 'cupon.html';
-        }
-    }
-</script>
 
     <audio id="audioPlayer"></audio>
 
