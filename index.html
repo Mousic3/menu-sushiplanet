@@ -628,7 +628,7 @@
         </div>
 
         <!-- SECCIÓN DESTACADA (REEMPLAZA AL CUPÓN) -->
-        <div class="featured-wrapper">
+        <div class="featured-wrapper" id="ofertaDestacada">
             <div class="featured-badge">¡20% OFF! 🔥</div>
             <div class="featured-card">
                 <div class="promo-image-container">
@@ -639,7 +639,9 @@
                     <div class="promo-info" style="flex-direction: column; align-items: flex-start; gap: 5px;">
                         <span class="promo-pieces">40 PIEZAS MIXTAS</span>
                         <div style="display: flex; align-items: center; gap: 15px;">
+                            <span style="text-decoration: line-through; color: #aaa; font-size: 28px;">$14.500</span>
                             <span class="promo-price" style="font-size: 40px; color: #00fff2;">20% OFF</span>
+                            <span style="font-size: 13px; color: #ffcc00; border: 1px solid #ffcc00; padding: 4px 8px; border-radius: 4px; font-weight: bold; box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);">⏳ SOLO POR HOY</span>
                         </div>
                     </div>
                     <ul class="promo-items">
@@ -1251,6 +1253,19 @@
         });
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- LÓGICA PARA OCULTAR LA OFERTA AUTOMÁTICAMENTE ---
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fecha límite: 7 de Febrero de 2026 a las 01:00 AM
+            // (Año, Mes [Enero=0, Febrero=1], Día, Hora, Minuto)
+            const fechaLimite = new Date(2026, 1, 7, 1, 0, 0); 
+            const ahora = new Date();
+            const oferta = document.getElementById('ofertaDestacada');
+
+            if (oferta && ahora >= fechaLimite) {
+                oferta.style.display = 'none'; // Se oculta la sección completa
+            }
         });
     </script>
 
