@@ -167,7 +167,9 @@
         <p>Has desbloqueado tu oferta de la semana</p>
         
         <div class="monto">$2.000 OFF</div>
-        
+        <p style="color:#ffcc00; font-weight:bold; margin-top:8px; text-transform:uppercase;">OFERTA VÁLIDA PARA PROMOCIONES DE 30 PIEZAS — DISPONIBLE HASTA EL 12 DE FEBRERO</p>
+        <div id="countdown" style="margin-top:10px; font-weight:700; color:#00fff2; text-shadow:0 0 8px rgba(0,255,242,0.6);"></div>
+
         <p>CÓDIGO: <strong style="color:white">OFERTA</strong></p>
         <div class="serial-code" id="serialID">ID: GENERANDO...</div>
 
@@ -229,6 +231,31 @@
 
         // Lanzar un cometa cada 1.5 segundos
         setInterval(createComet, 1500);
+    </script>
+    <script>
+        // Contador regresivo hasta 12 de febrero 2026 23:59:59
+        (function(){
+            const countdownEl = document.getElementById('countdown');
+            if(!countdownEl) return;
+            const target = new Date('2026-02-12T23:59:59');
+            let timer = null;
+            function update(){
+                const now = new Date();
+                const diff = target - now;
+                if(diff <= 0){
+                    countdownEl.innerHTML = '<span style="color:#ff6666; font-weight:800;">OFERTA FINALIZADA</span>';
+                    clearInterval(timer);
+                    return;
+                }
+                const days = Math.floor(diff / (1000*60*60*24));
+                const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+                const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+                const secs = Math.floor((diff % (1000*60)) / 1000);
+                countdownEl.innerHTML = 'Tiempo restante: <span style="color:#ffcc00;">'+days+'d '+hours+'h '+mins+'m '+secs+'s</span>';
+            }
+            update();
+            timer = setInterval(update, 1000);
+        })();
     </script>
 </body>
 </html>
