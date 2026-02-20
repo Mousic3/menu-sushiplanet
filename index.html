@@ -296,6 +296,7 @@
             box-shadow: 0 0 40px rgba(255, 0, 85, 0.4), inset 0 0 30px rgba(0, 255, 242, 0.1);
             transform: scale(1.02);
             animation: gradientMove 3s ease infinite, floatCard 4s ease-in-out infinite;
+            will-change: transform, box-shadow; /* Optimización para GPU */
         }
 
         .promo-card.featured .promo-title {
@@ -333,11 +334,12 @@
         .reveal-overlay::before {
             content: ''; position: absolute; width: 200%; height: 200%;
             background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 255, 242, 0.05) 10px, rgba(0, 255, 242, 0.05) 20px);
-            animation: bgRotate 20s linear infinite;
+            animation: bgRotate 60s linear infinite; /* Más lento para ahorrar recursos */
         }
         @keyframes bgRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        .reveal-overlay.revealed { opacity: 0; transform: scale(1.5); pointer-events: none; filter: blur(20px); }
+        /* Eliminado el blur(20px) que causa lag en móviles */
+        .reveal-overlay.revealed { opacity: 0; transform: scale(1.2); pointer-events: none; }
         
         .mystery-icon {
             font-size: 80px; margin-bottom: 15px;
@@ -391,6 +393,7 @@
         .confetti {
             position: fixed; top: -10px; z-index: 9999; pointer-events: none;
             animation: fallConfetti linear forwards;
+            will-change: transform, opacity;
         }
         @keyframes fallConfetti {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -698,6 +701,13 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* Optimización específica para móviles */
+        @media (max-width: 768px) {
+            .reveal-overlay::before { animation: none; } /* Desactivar rotación de fondo en móvil */
+            .promo-card.featured { animation: floatCard 4s ease-in-out infinite; } /* Quitar animación de borde pesado */
+            .promo-card.featured { background-size: 100% 100%; } /* Fondo estático en móvil */
+        }
+
         /* Media Queries Celular */
         @media (max-width: 768px) {
             .site-title { font-size: 32px; }
@@ -756,7 +766,6 @@
         <div class="menu-section" id="ofertas">
             <div class="section-title">🎁 Oferta del Día 🎁</div>
             <div class="promo-grid">
-                <div class="promo-card featured">
                 <div class="promo-card featured" id="mysteryCard">
                     <!-- Overlay de Misterio -->
                     <div class="reveal-overlay" id="revealOverlay">
@@ -764,16 +773,16 @@
                         <div class="mystery-text">¿Cuál es la Oferta de Hoy?</div>
                         <button class="btn-reveal" onclick="revelarOferta()">¡VER AHORA!</button>
                     </div>
-                    <div class="promo-image-container"><img src="images/Meteoro_Deluxe.jpg" alt="Meteor Deluxe" class="promo-image"></div>
+                    <div class="promo-image-container"><img src="images/Fusion_Orbital.jpg" alt="Fusion Orbital" class="promo-image"></div>
                     <div class="promo-content">
-                        <div class="promo-title">Meteoro Deluxe</div>
+                        <div class="promo-title">Fusión Orbital</div>
                         <div class="promo-info"><span class="promo-pieces">30 PIEZAS</span><span class="promo-price"><span class="original-price">$13.990</span><span class="sale-price">$10.000</span></span></div>
                         <ul class="promo-items">
-                            <li>10 Panko: Pollo, Palta, Queso crema.</li>
-                            <li>10 Queso "Topping Takis": Salmón crispy Palta, Queso crema.</li>
-                            <li>10 Palta: Camarón, Cebollín, Queso crema.</li>
+                            <li>10 Palta: Pollo, Ciboulette, Queso crema.</li>
+                            <li>10 Queso: Kanikama, Palta.</li>
+                            <li>10 Panko: Pollo, Morrón, Queso crema.</li>
                         </ul>
-                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Meteoro%20Deluxe*%20(30%20PIEZAS%20-%20%2410.000)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
+                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Fusion%20Orbital*%20(30%20piezas%20-%20%2410.000)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -854,13 +863,13 @@
                     <div class="promo-image-container"><img src="images/Meteoro_Deluxe.jpg" alt="Meteor Deluxe" class="promo-image"></div>
                     <div class="promo-content">
                         <div class="promo-title">Meteoro Deluxe</div>
-                        <div class="promo-info"><span class="promo-pieces">30 PIEZAS</span><span class="promo-price"><span class="original-price">$13.990</span><span class="sale-price">$10.000</span></span></div>
+                        <div class="promo-info"><span class="promo-pieces">30 PIEZAS</span><span class="promo-price">$13.990</span></div>
                         <ul class="promo-items">
                             <li>10 Panko: Pollo, Palta, Queso crema.</li>
                             <li>10 Queso "Topping Takis": Salmón crispy Palta, Queso crema.</li>
                             <li>10 Palta: Camarón, Cebollín, Queso crema.</li>
                         </ul>
-                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Meteoro%20Deluxe*%20(30%20PIEZAS%20-%20%2410.000)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
+                        <a href="https://wa.me/56955230651?text=Hola!%20Me%20interesa%20la%20promoci%C3%B3n%20*Meteoro%20Deluxe*%20(30%20PIEZAS%20-%20%2413.990)" class="whatsapp-btn" target="_blank"><span class="whatsapp-icon">📱</span> Pedir por WhatsApp</a>
                     </div>
                 </div>
                 <div class="promo-card">
@@ -1389,7 +1398,10 @@
 
             // Efecto de Confeti
             const colors = ['#ff00ff', '#00fff2', '#ffcc00', '#ff0055', '#ffffff'];
-            for (let i = 0; i < 100; i++) {
+            // Detectar si es móvil para reducir partículas (30 en móvil, 100 en PC)
+            const particleCount = window.innerWidth < 768 ? 30 : 100;
+
+            for (let i = 0; i < particleCount; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
