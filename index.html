@@ -307,6 +307,21 @@
             text-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
         }
 
+        /* badge que aparece en cartas en oferta y puntea ligeramente */
+        .promo-card.on-sale .sale-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #ff0055;
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            animation: pulseBadge 1.5s infinite;
+            z-index: 10;
+        }
+
         .promo-info .original-price {
             text-decoration: line-through;
             color: #aaa;
@@ -803,6 +818,43 @@
                 const dayIndex = ((weekday + 6) % 7) % candidates.length;
                 const chosen = candidates[dayIndex];
                 if (!chosen) return;
+
+                const applyBadge = card => {
+                    let badge = card.querySelector('.sale-badge');
+                    if (!badge) {
+                        badge = document.createElement('div');
+                        badge.className = 'sale-badge';
+                        badge.textContent = 'OFERTA $10.000';
+                        card.appendChild(badge);
+                    }
+                };
+                const removeBadge = card => {
+                    const b = card.querySelector('.sale-badge');
+                    if (b) b.remove();
+                };
+
+                // ajustar precios de todos los candidatos: sólo el elegido baja a $10.000
+                candidates.forEach((card, i) => {
+                    const priceSpan = card.querySelector('.promo-price');
+                    if (!priceSpan) return;
+                    // guardar precio original si no existe
+                    if (!priceSpan.dataset.orig) {
+                        priceSpan.dataset.orig = priceSpan.textContent.trim();
+                    }
+                    const link = card.querySelector('.whatsapp-btn');
+                    if (i === dayIndex) {
+                        priceSpan.innerHTML = `<span class="original-price">${priceSpan.dataset.orig}</span><span class="sale-price">$10.000</span>`;
+                        card.classList.add('on-sale');
+                        applyBadge(card);
+                        if (link) link.textContent = '📱 Pedir por WhatsApp ($10.000)';
+                    } else {
+                        priceSpan.innerHTML = priceSpan.dataset.orig;
+                        card.classList.remove('on-sale');
+                        removeBadge(card);
+                        if (link) link.textContent = '📱 Pedir por WhatsApp';
+                    }
+                });
+
                 const mystery = document.getElementById('mysteryCard');
                 if (!mystery) return;
                 // copia de imagen
@@ -820,11 +872,19 @@
                 };
                 copyField('.promo-title');
                 copyField('.promo-pieces');
-                copyField('.promo-price');
+                // precio especial en la tarjeta misteriosa
+                const priceField = mystery.querySelector('.promo-price');
+                if (priceField) {
+                    const orig = chosen.querySelector('.promo-price').dataset.orig || chosen.querySelector('.promo-price').textContent;
+                    priceField.innerHTML = `<span class="original-price">${orig}</span><span class="sale-price">$10.000</span>`;
+                }
                 copyField('.promo-items');
                 const fromLink = chosen.querySelector('.whatsapp-btn');
                 const toLink = mystery.querySelector('.whatsapp-btn');
-                if (fromLink && toLink) toLink.href = fromLink.href;
+                if (fromLink && toLink) {
+                    toLink.href = fromLink.href;
+                    toLink.textContent = '📱 Pedir por WhatsApp ($10.000)';
+                }
             });
         </script>
 
