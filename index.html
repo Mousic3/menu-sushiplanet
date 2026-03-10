@@ -773,10 +773,11 @@
                         <div class="mystery-text">¿Cuál es la Oferta de Hoy?</div>
                         <button class="btn-reveal" onclick="revelarOferta()">¡VER AHORA!</button>
                     </div>
+                    <!-- contenido inicial; se sustituye automáticamente al cargar la página -->
                     <div class="promo-image-container"><img src="images/Fusion_Orbital.jpg" alt="Fusion Orbital" class="promo-image"></div>
                     <div class="promo-content">
                         <div class="promo-title">Fusión Orbital</div>
-                        <div class="promo-info"><span class="promo-pieces">30 PIEZAS</span><span class="promo-price"><span class="original-price">$12.000</span><span class="sale-price">$10.000</span></span></div>
+                        <div class="promo-info"><span class="promo-pieces">30 PIEZAS</span><span class="promo-price"><span class="original-price">$13.990</span><span class="sale-price">$10.000</span></span></div>
                         <ul class="promo-items">
                             <li>10 Palta: Pollo, Ciboulette, Queso crema.</li>
                             <li>10 Queso: Kanikama, Palta.</li>
@@ -787,6 +788,45 @@
                 </div>
             </div>
         </div>
+        <script>
+            // rotación automática de la promoción del día
+            document.addEventListener('DOMContentLoaded', function() {
+                const weekday = new Date().getDay(); // 0 domingo, 1 lunes ...
+                // seleccionar todas las promociones básicas y fritas de 30 piezas
+                const cards = [...document.querySelectorAll('#basicas .promo-card, #fritas .promo-card')];
+                const candidates = cards.filter(card => {
+                    const pieces = card.querySelector('.promo-pieces');
+                    return pieces && /30\s*PIEZAS/i.test(pieces.textContent);
+                });
+                if (candidates.length === 0) return;
+                // calcular índice empezando lunes=0, domingo último
+                const dayIndex = ((weekday + 6) % 7) % candidates.length;
+                const chosen = candidates[dayIndex];
+                if (!chosen) return;
+                const mystery = document.getElementById('mysteryCard');
+                if (!mystery) return;
+                // copia de imagen
+                const fromImg = chosen.querySelector('.promo-image');
+                const toImg = mystery.querySelector('.promo-image');
+                if (fromImg && toImg) {
+                    toImg.src = fromImg.src;
+                    toImg.alt = fromImg.alt;
+                }
+                // helper para copiar texto/html
+                const copyField = selector => {
+                    const from = chosen.querySelector(selector);
+                    const to = mystery.querySelector(selector);
+                    if (from && to) to.innerHTML = from.innerHTML;
+                };
+                copyField('.promo-title');
+                copyField('.promo-pieces');
+                copyField('.promo-price');
+                copyField('.promo-items');
+                const fromLink = chosen.querySelector('.whatsapp-btn');
+                const toLink = mystery.querySelector('.whatsapp-btn');
+                if (fromLink && toLink) toLink.href = fromLink.href;
+            });
+        </script>
 
         <div class="menu-section" id="galacticas">
             <div class="section-title">🌟 Promociones Galácticas 🌟</div>
@@ -1579,4 +1619,3 @@
     </script>
 </body>
 </html>
-
